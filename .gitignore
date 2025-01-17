@@ -1,0 +1,26 @@
+# Fichiers générés par le build
+bin/
+obj/
+
+# Logs, fichiers de débogage et crash reports
+*.log
+*.vs
+.vscode/
+.idea/
+*.swp
+
+# Fichiers de configuration sensibles
+appsettings.json
+appsettings.Development.json
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Informations utilisateur
+*.user
+*.lock.json
+
+# Dépendances locales
+node_modules/
+wwwroot/lib/
