@@ -1,7 +1,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using EventManagement.Data;
+using EventManagement.Models;
 using EventManagement.Models.Repositories;
+using MongoDB.Driver;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -16,15 +18,22 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
         sqlOptions.EnableRetryOnFailure();
     }));
 
+// Configure MongoDB (WIP)
+var mongoConnectionString = builder.Configuration.GetConnectionString("MongoDb");
+if (!string.IsNullOrEmpty(mongoConnectionString))
+{
+    var mongoClient = new MongoClient(mongoConnectionString);
+    var mongoDatabase = mongoClient.GetDatabase("EventManagement");
+    builder.Services.AddSingleton<IMongoClient>(mongoClient);
+    builder.Services.AddScoped<IEventStatsRepository>(provider => new EventStatsRepository(mongoDatabase));
+}
+
 // Add Identity
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add repositories
 builder.Services.AddScoped<IEventRepository, EventRepository>();
-
-// Add controllers
-builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
@@ -39,7 +48,6 @@ using (var scope = app.Services.CreateScope())
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
