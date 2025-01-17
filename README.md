@@ -20,6 +20,10 @@ Cette application offre une interface intuitive pour :
 - Suivre les inscriptions aux événements
 - Consulter des statistiques (WIP)
 
+## 🎨 Maquettes
+
+Les maquettes de l'application sont disponibles dans le fichier `ECF_EventManagement.fig` à la racine du projet.
+
 ## 🏗 Architecture
 
 L'application utilise une architecture MVC avec :
