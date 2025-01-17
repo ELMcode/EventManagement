@@ -14,3 +14,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Event CRUD Operations
 - Participant Registration System
 - MongoDB Statistics Integration (WIP)
+
+[Unreleased]: https://github.com/ELMcode/EventManagement/tree/develop
