@@ -9,6 +9,7 @@ Application de gestion d'événements développée avec ASP.NET Core, permettant
 - MongoDB.Driver
 - Bootstrap 5
 - ASP.NET Identity
+- Gitflow Atlassian
 
 ## 📋 Features
 
