@@ -1,0 +1,75 @@
+@model EventManagement.Models.Event
+
+<div class="container mt-4">
+    <h1>Détails de l'Événement</h1>
+
+    <div class="card">
+        <div class="card-body">
+            <dl class="row">
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Name)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Name)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Description)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Description)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Date)</dt>
+                <dd class="col-sm-9">@Model.Date.ToString("dd/MM/yyyy HH:mm")</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Location)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Location)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.MaxParticipants)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.MaxParticipants)</dd>
+
+                <dt class="col-sm-3">@Html.DisplayNameFor(model => model.Price)</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Price) €</dd>
+
+                <dt class="col-sm-3">Places disponibles</dt>
+                <dd class="col-sm-9">@(Model.MaxParticipants - Model.Registrations.Count) / @Model.MaxParticipants</dd>
+            </dl>
+        </div>
+    </div>
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h4>Participants inscrits</h4>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Nom</th>
+                            <th>Email</th>
+                            <th>Date d'inscription</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var registration in Model.Registrations.OrderBy(r => r.RegistrationDate))
+                        {
+                            <tr>
+                                <td>@registration.Participant.Name</td>
+                                <td>@registration.Participant.Email</td>
+                                <td>@registration.RegistrationDate.ToString("dd/MM/yyyy HH:mm")</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="mt-4">
+        @if (User.IsInRole("Admin"))
+        {
+            <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Modifier</a>
+            <span>|</span>
+            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display: inline;">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('Êtes-vous sûr de vouloir supprimer cet événement ?')">
+                    Supprimer
+                </button>
+            </form>
+        }
+        <a asp-action="Index" class="btn btn-secondary">Retour à la liste</a>
+    </div>
+</div>

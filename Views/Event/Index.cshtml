@@ -1,0 +1,66 @@
+@model IEnumerable<EventManagement.Models.Event>
+
+<div class="container mt-4">
+    <h1>Liste des Événements</h1>
+
+    @if (User.IsInRole("Admin"))
+    {
+        <p>
+            <a asp-action="Create" class="btn btn-primary mb-3">Créer un nouvel évenement</a>
+        </p>
+    }
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Date</th>
+                <th>Lieu</th>
+                <th>Prix</th>
+                <th>État</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Name</td>
+                    <td>@item.Date.ToString("dd/MM/yyyy HH:mm")</td>
+                    <td>@item.Location</td>
+                    <td>@item.Price.ToString("C")</td>
+                    <td>
+                        @if (item.IsFull)
+                        {
+                            <span class="badge bg-danger">Complet</span>
+                        }
+                        else if (item.IsFinished)
+                        {
+                            <span class="badge bg-secondary">Terminé</span>
+                        }
+                        else if (item.HasStarted)
+                        {
+                            <span class="badge bg-warning">En cours</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-success">À venir</span>
+                        }
+                    </td>
+                    <td>
+                        <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info btn-sm">Détails</a>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <span>|</span>
+                            <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning btn-sm">Modifier</a>
+                            <span>|</span>
+                            <form asp-action="Delete" asp-route-id="@item.Id" method="post" style="display: inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Voulez-vous vraiment supprimer cet événement ?');">Supprimer</button>
+                            </form>
+                        }
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

@@ -1,8 +1,33 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Accueil";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h1 class="display-4 mb-4">Bienvenue dans l'application de Gestion d'Événements</h1>
+    
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Gérez vos événements facilement</h5>
+                    <p class="card-text">
+                        Notre application vous permet de créer, organiser et gérer vos événements de manière simple et efficace.
+                    </p>
+                    
+                    @if (User.Identity?.IsAuthenticated == true)
+                    {
+                        <a asp-controller="Event" asp-action="Index" class="btn btn-primary">Voir les événements</a>
+                    }
+                    else
+                    {
+                        <div class="mt-4">
+                            <p>Connectez-vous pour commencer à gérer vos événements</p>
+                            <a class="btn btn-primary" asp-area="Identity" asp-page="/Account/Login">Se connecter</a>
+                            <a class="btn btn-outline-primary" asp-area="Identity" asp-page="/Account/Register">S'inscrire</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
