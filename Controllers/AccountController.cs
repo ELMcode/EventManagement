@@ -40,7 +40,7 @@ namespace EventManagement.Controllers
                     {
                         return LocalRedirect(returnUrl);
                     }
-                    return RedirectToAction(nameof(HomeController.Index), "Home");
+                    return RedirectToAction("Index", "Event");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid login attempt.");
             }
@@ -53,7 +53,7 @@ namespace EventManagement.Controllers
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            return RedirectToAction("Index", "Event");
         }
     }
 }
