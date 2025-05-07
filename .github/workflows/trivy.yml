@@ -15,20 +15,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-
-      - name: Install dependencies
-        run: |
-          if [ -f "package.json" ]; then
-            npm ci || npm install
-          fi
-          if [ -f "packages.config" ]; then
-            nuget restore
-          fi
-
       - name: Run Trivy vulnerability scanner
         uses: aquasecurity/trivy-action@master
         with:
