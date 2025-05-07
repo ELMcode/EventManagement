@@ -1,0 +1,12 @@
+{
+  "name": "eventmanagement-e2e",
+  "version": "1.0.0",
+  "description": "E2E tests for EventManagement",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run"
+  },
+  "devDependencies": {
+    "cypress": "^14.3.2"
+  }
+}
