@@ -50,8 +50,7 @@ jobs:
           working-directory: .
           browser: chrome
           wait-on: 'http://localhost:5230'
-          config: video=false,screenshotOnRunFailure=false
-      
+
       - name: Display test summary
         if: always()
         run: |
