@@ -1,0 +1,35 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main ]
+    tags:
+      - '*-dev'
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  # 1. Tests statiques (Sonar et Trivy)
+  static-analysis-sonar:
+    name: SonarQube Analysis
+    uses: ./.github/workflows/sonarqube.yml
+    continue-on-error: true
+
+  static-analysis-trivy:
+    name: Trivy Vulnerability Scan
+    uses: ./.github/workflows/trivy.yml
+    continue-on-error: true
+
+  # 2. Build & Run
+  build-and-test:
+    name: Build and Test
+    needs: [static-analysis-sonar, static-analysis-trivy]
+    uses: ./.github/workflows/build-and-run.yml
+    continue-on-error: true
+
+  # 3. Tests E2E (Cypress)
+  cypress-e2e:
+    name: Cypress E2E Tests
+    needs: build-and-test
+    uses: ./.github/workflows/cypress-e2e.yml
+    continue-on-error: true
