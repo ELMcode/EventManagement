@@ -38,4 +38,9 @@ jobs:
           exit-code: '0'
           severity: 'CRITICAL,HIGH,MEDIUM,LOW'
           ignore-unfixed: false
-          include-dev-deps: true
+          scanners: 'vuln,secret,config'
+
+      - name: Run Trivy with dev dependencies
+        if: always()
+        run: |
+          trivy fs --include-dev-deps --severity CRITICAL,HIGH,MEDIUM,LOW .
