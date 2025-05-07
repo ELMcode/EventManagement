@@ -1,0 +1,60 @@
+name: Cypress E2E Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_call:
+
+jobs:
+  cypress-run:
+    name: Cypress E2E Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7.0.x'
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Cypress and dependencies
+        run: npm ci
+        working-directory: .
+
+      - name: Start ASP.NET Core application
+        run: dotnet run --no-build --no-restore &
+        env:
+          ASPNETCORE_ENVIRONMENT: Development
+          ASPNETCORE_URLS: http://localhost:5230
+
+      - name: Wait for application to start
+        run: sleep 10
+
+      - name: Run Cypress tests
+        uses: cypress-io/github-action@v6
+        with:
+          working-directory: .
+          browser: chrome
+          wait-on: 'http://localhost:5230'
+          config: video=false,screenshotOnRunFailure=false
+      
+      - name: Display test summary
+        if: always()
+        run: |
+          echo "=== Cypress Test Summary ==="
+          echo "Tests completed with status: ${{ job.status }}"
+          echo "Check logs above for detailed results"

@@ -16,4 +16,22 @@
     <PackageReference Include="MongoDB.Driver" Version="3.1.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Include=".github\workflows\build-and-run.yml" />
+    <Content Include=".github\workflows\cypress-e2e.yml" />
+    <Content Include=".github\workflows\html.tpl" />
+    <Content Include=".github\workflows\main.yml" />
+    <Content Include=".github\workflows\sonarqube.yml" />
+    <Content Include=".github\workflows\trivy.yml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="e2e_demo\cypress\fixtures\example.json" />
+    <_ContentIncludedByDefault Remove="e2e_demo\cypress\fixtures\headers.json" />
+    <_ContentIncludedByDefault Remove="e2e_demo\cypress\fixtures\user.json" />
+    <_ContentIncludedByDefault Remove="e2e_demo\cypress\fixtures\user_ex2.json" />
+    <_ContentIncludedByDefault Remove="e2e_demo\package-lock.json" />
+    <_ContentIncludedByDefault Remove="e2e_demo\package.json" />
+  </ItemGroup>
+
 </Project>
